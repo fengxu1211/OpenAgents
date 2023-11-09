@@ -88,7 +88,7 @@ export const initialState: HomeInitialState = {
   showChatbar: true,
   defaultAgentId: undefined,
   defaultLLM: undefined,
-  defaultLLMId: 'gpt-3.5-turbo-16k',
+  defaultLLMId: 'bedrock-claude-v2',
   serverSideApiKeyIsSet: false,
   serverSidePluginKeysSet: false,
   followUpQuestions: [],

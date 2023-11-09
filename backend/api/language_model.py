@@ -12,6 +12,7 @@ def get_llm_list():
     """Gets the whole llm list."""
     return [
         {"id": llm, "name": llm} for llm in [
+            "bedrock-claude-v2",
             "gpt-3.5-turbo-16k",
             "gpt-4",
             "claude-v1",
@@ -46,6 +47,15 @@ def get_llm(llm_name: str, **kwargs) -> BaseLanguageModel:
             openai_api_base="https://model-api.xlang.ai/v1",
             verbose=True,
             max_tokens=2048,
+            **kwargs
+        )
+    elif llm_name == "bedrock-claude-v2":
+        litellm_api_base = os.getenv("LITELLM_API_BASE", "")
+        return ChatOpenAI(
+            model_name="anthropic.claude-v2",
+            openai_api_base=litellm_api_base,
+            streaming=True,
+            verbose=True,
             **kwargs
         )
     else:

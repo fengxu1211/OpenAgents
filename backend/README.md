@@ -133,6 +133,11 @@ Set your Anthropic key (if you use Anthropic API):
 export ANTHROPIC_API_KEY=<ANTHROPIC_API_KEY>
 ```
 
+Set your LiteLLM API Base (if you use Bedrock Claude V2 model):
+```bash
+export LITELLM_API_BASE=http://localhost:18000/v1
+```
+
 </details>
 
 

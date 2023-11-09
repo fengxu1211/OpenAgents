@@ -87,4 +87,5 @@ Begin.
 fake_continue_prompt = {
     "claude-2": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nBegin.",
     "claude-v1": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nBegin.",
+    "bedrock-claude-v2": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nBegin.",
 }
