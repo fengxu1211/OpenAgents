@@ -15,5 +15,5 @@ INTERNAL = 500
 UNSUPPORTED = 403
 
 # define models which need extra continue flag
-NEED_CONTINUE_MODEL = {"claude-v1", "claude-2"}
+NEED_CONTINUE_MODEL = {"claude-v1", "claude-2", "bedrock-claude-v2"}
 DEFAULT_USER_ID = "DefaultUser"

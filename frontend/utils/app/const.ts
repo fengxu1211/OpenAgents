@@ -62,7 +62,7 @@ export const API_GET_LLM_LIST = `${API_ENDPOINT}/llm_list` as const;
 export const API_GET_QUOTA = `${API_ENDPOINT}/user_quota` as const;
 
 export const DEFAULT_TEMPERATURE = parseFloat(
-  process.env.NEXT_PUBLIC_DEFAULT_TEMPERATURE || '0.7',
+  process.env.NEXT_PUBLIC_DEFAULT_TEMPERATURE || '0',
 );
 
 export const OPENAI_API_TYPE = process.env.OPENAI_API_TYPE || 'openai';

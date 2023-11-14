@@ -56,6 +56,7 @@ def get_llm(llm_name: str, **kwargs) -> BaseLanguageModel:
             openai_api_base=litellm_api_base,
             streaming=True,
             verbose=True,
+            max_tokens=4096,
             **kwargs
         )
     else:

@@ -13,7 +13,7 @@ from langchain.prompts.chat import (
     ChatPromptTemplate,
     HumanMessagePromptTemplate,
 )
-from langchain.schema import SystemMessage
+from langchain.schema import SystemMessage, HumanMessage
 from loguru import logger
 from pydantic import BaseModel, Extra
 
@@ -155,7 +155,7 @@ class PythonChain(Chain, BaseModel):
     def create_echarts_prompt(cls, system_prompt: str, reference_code_prompt: str) -> BasePromptTemplate:
         input_variables = ["history_code", "question", "data", "reference_code"]
         messages = [
-            SystemMessage(content=system_prompt),
+            HumanMessage(content=system_prompt),
             HumanMessagePromptTemplate.from_template(template=ECHARTS_USER_PROMPT),
         ]
 

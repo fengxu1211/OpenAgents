@@ -68,7 +68,7 @@ class ConversationalChatAgent(Agent):
     @property
     def llm_prefix(self) -> str:
         """Prefix to append the llm call with."""
-        return "Thought:"
+        return "Thought:\n"
 
     @classmethod
     def _validate_tools(cls, tools: Sequence[BaseTool]) -> None:
@@ -101,11 +101,16 @@ class ConversationalChatAgent(Agent):
         if input_variables is None:
             input_variables = ["input", "chat_history", "agent_scratchpad"]
         messages = [
-            SystemMessagePromptTemplate.from_template(system_message),
+            # SystemMessagePromptTemplate.from_template(system_message),
+            HumanMessagePromptTemplate.from_template(system_message),
             MessagesPlaceholder(variable_name="chat_history"),
-            HumanMessagePromptTemplate.from_template(final_prompt),
-            MessagesPlaceholder(variable_name="agent_scratchpad"),
         ]
+        if len(final_prompt) > 0:
+            messages.append(
+                HumanMessagePromptTemplate.from_template(final_prompt)
+            )
+        messages.append(MessagesPlaceholder(variable_name="agent_scratchpad"))
+
         return ChatPromptTemplate(input_variables=input_variables, messages=messages)
 
     @override
@@ -130,7 +135,8 @@ class ConversationalChatAgent(Agent):
                 else:
                     content.append(observation)
         content_str = "\n".join(content)
-        thoughts.append(AIMessage(content=content_str))
+        if len(content_str) > 0:
+            thoughts.append(AIMessage(content=content_str))
         if self.continue_model is not None and len(intermediate_steps) != 0:
             thoughts.append(HumanMessage(content=fake_continue_prompt[self.continue_model]))
         return thoughts

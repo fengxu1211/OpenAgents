@@ -45,8 +45,6 @@ The malicious code includes but not limited to:
 6. Cause any other security issues
 
 [Mandatory to notice] It is imperative and a must to utilize tools whenever the human's query tasks that implies using tools, such as searching online, generating code, executing code, or any other complex functionalities. You must try to use tools to solve human queries in these cases.
-
-Begin.
 """
 
 SUFFIX = """{input}"""
@@ -87,5 +85,5 @@ Begin.
 fake_continue_prompt = {
     "claude-2": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nBegin.",
     "claude-v1": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nBegin.",
-    "bedrock-claude-v2": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nBegin.",
+    "bedrock-claude-v2": "you can start to think and respond to me using the above formats. No Apology. Just respond with format in Option 2(use tool) or Option 3(direct text response), no other words.\n\nAsistant:",
 }

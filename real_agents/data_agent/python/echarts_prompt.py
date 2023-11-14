@@ -2,45 +2,51 @@ ECHARTS_REF_CODE = """Here are some examples of generating Py-Echarts Code based
 
 IMPORTANT: You need to follow the coding style, and the type of the x, y axis. But also need to focus on the column name of the uploaded tables(if exists). Generally, PyEcharts does not accept numpy.int or numpy.float, etc. It only supports built-in data type like int, float, and str.
 
-Given the following database:
-company_sales.xlsx
-   year  sales  profit  expenses  employees
-0  2010    100      60        40         10
-1  2011    120      80        50         12
-2  2012    150      90        60         14
-3  2013    170     120        70         16
-[too long to show]
+<example>
+Given the following csv file:
+SaaSSales100.csv
+Row ID,Order ID,Order Date,Sales
+1,EMEA-2022-152156,11/9/2022,261.96
+2,EMEA-2022-152156,11/9/2022,731.94
+3,AMER-2022-138688,6/13/2022,14.62
 
-Q: Could you help plot a bar chart with the year on the x-axis and the sales on the y-axis?
+Q: Create a bar chart showing the total sales for each month based on the Order Date column in the SaaSSales100 table
+A: 
 <code>
 import pandas as pd
 from pyecharts.charts import Bar
 from pyecharts import options as opts
-df = pd.read_excel('company_sales.xlsx')
-years = [str(_) for _ in df['year'].tolist()]
-sales = [float(_) for _ in df['sales'].tolist()]
+df = pd.read_csv('SaaSSales100.csv')
+df['Order Date'] = pd.to_datetime(df['Order Date'])
+df['Month-Year'] = df['Order Date'].dt.to_period('M')
+df_grouped = df.groupby('Month-Year')['Sales'].sum().reset_index()
+df_grouped['Month-Year'] = df_grouped['Month-Year'].astype(str)
+
+months = df_grouped['Month-Year'].tolist()
+sales = df_grouped['Sales'].tolist()
+
 bar = Bar()
-bar.add_xaxis(years)
-bar.add_yaxis("Sales", sales)
+bar.add_xaxis(months)
+bar.add_yaxis("Total Sales", sales)
 bar.set_global_opts(
-    xaxis_opts=opts.AxisOpts(
-        type_="category",
-        name="Year",
-    ),
-    yaxis_opts=opts.AxisOpts(
-        type_="value",
-        name="Sales",
-    ),
-    title_opts=opts.TitleOpts(title="Sales over Years"),
+xaxis_opts=opts.AxisOpts(
+type_="category",
+name="Month-Year"
+),
+yaxis_opts=opts.AxisOpts(
+type_="value",
+name="Sales",
+),
+title_opts=opts.TitleOpts(title="Monthly Total Sales"),
 )
-# Render the chart
 ret_json = bar.dump_options()
 print(ret_json)
 </code>
-
+</example>
+<example>
 Given the same `company_sales.xlsx`.
 Q: A line chart comparing sales and profit over time would be useful. Could you help plot it?
-<code>
+A: <code>
 import pandas as pd
 from pyecharts.charts import Line
 from pyecharts import options as opts
@@ -69,12 +75,12 @@ line.set_global_opts(
 ret_json = line.dump_options()
 print(ret_json)
 </code>
-
-
+</example>
+<example>
 Given the same `company_sales.xlsx`.
 Q: A `stacked` line chart comparing sales and profit over time would be useful. Could you help plot it?
 Note: stacked line chart is more fancy in display, while the former is more neat.
-<code>
+A: <code>
 import pandas as pd
 from pyecharts.charts import Line
 from pyecharts import options as opts
@@ -108,9 +114,10 @@ line.set_series_opts(
 ret_json = line.dump_options()
 print(ret_json)
 </code>
+</example>
 
-
-Given the following database:
+<example>
+Given the following tsv file:
 shop_sales.tsv
    shop_id  total_sales  espresso_sales  latte_sales  cappuccino_sales  city_population
 0        1         5000            1500         2000              1500           500000
@@ -119,7 +126,7 @@ shop_sales.tsv
 3        4         4500            1300         1800              1400           300000
 4        5         6200            2200         2700              1300           600000
 Q: I would like a pie chart showing the sales proportion of espresso, latte, and cappuccino for Shop 1.
-<code>
+A: <code>
 import pandas as pd
 from pyecharts.charts import Pie
 from pyecharts import options as opts
@@ -146,7 +153,7 @@ print(ret_json)
 </code>
 
 Q: Generate a scatter plot.
-<code>
+A: <code>
 import random
 from pyecharts import options as opts
 from pyecharts.charts import Scatter
@@ -169,6 +176,7 @@ scatter.set_global_opts(
 ret_json = scatter.dump_options()
 print(ret_json)
 </code>
+</example>
 """
 
 FUNCTION_ROLE_PLAY = """def generate_continuous_elegant_python_echarts_code(reference_code: str, history_dict: Dict[str, str]) -> str:
@@ -223,18 +231,18 @@ FUNCTION_ROLE_PLAY = """def generate_continuous_elegant_python_echarts_code(refe
 
 
 ECHARTS_USER_PROMPT = """
-history_code = \"\"\"{history_code}\"\"\"
-data = \"\"\"{data}\"\"\"
-reference_code = \"\"\"{reference_code}\"\"\"
-human_question = \"\"\"{question}
-# MUST follow reference_code, and only use pyecharts to show echarts\"\"\"
+<sample_data>{data}</sample_data>
 
-history_dict = {{
-    "history code": history_code,
-    "human question": human_question,
-    "data": data,
-    "reference_code": reference_code,
-}}
+<examples>{reference_code}</examples>
+
+<history_code>{history_code}</history_code>
+
+Here is the user's question: <question>{question}
+# MUST follow reference_code, and only use pyecharts to show echarts</question>
+
+Think about your answer first before you respond. Put your generated code in <code></code> tags without any explanation.
+
+Assistant:
 """
 
-E_SYSTEM_PROMPT = f"You are now the following python function: ```{FUNCTION_ROLE_PLAY}```\n\nRespond exclusively with the generated code wrapped <code></code>. Ensure that the code you generate is executable Python code that can be run directly in a Python environment, requiring no additional string encapsulation or escape characters."
+E_SYSTEM_PROMPT = f"You are now the following python function: \n```{FUNCTION_ROLE_PLAY}\n```\n\nRespond exclusively with the generated code wrapped <code></code>. Ensure that the code you generate is executable Python code that can be run directly in a Python environment, requiring no additional string encapsulation or escape characters."
