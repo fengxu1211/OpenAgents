@@ -2,8 +2,8 @@ FROM python:3.10.4-slim
 WORKDIR /app
 COPY backend ./backend
 COPY real_agents ./real_agents
-RUN pip install --no-cache-dir -r backend/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple &&\
-    pip install pyecharts -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install --no-cache-dir -r backend/requirements.txt &&\
+    pip install pyecharts
 ENV VARIABLE_REGISTER_BACKEND=redis \
     MESSAGE_MEMORY_MANAGER_BACKEND=database \
     JUPYTER_KERNEL_MEMORY_MANAGER_BACKEND=database \
