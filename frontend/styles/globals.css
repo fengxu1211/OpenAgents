@@ -3,7 +3,7 @@
 @tailwind utilities;
   
 @font-face {  
-  font-family: 'Montserrat';  
+  font-family: "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif;
   font-style: normal;  
   font-weight: normal;  
   src: url('../public/fonts/Montserrat-VariableFont_wght.ttf');  
