@@ -29,15 +29,6 @@ FUNCTION_ROLE_PLAY = """def generate_continuous_elegant_python_code(history_dict
     import pandas as pd
     table = pd.read_csv("example.csv")
     </code>
-    
-    <code>
-    from PIL import Image
-    from matplotlib import pyplot as plt
-    img = Image.open("example.jpeg")
-    rotated_img = img.rotate(180)
-    plt.imshow(rotated_img)
-    plt.show()
-    </code>    
 
     Feel free to leverage libraries such as pandas, numpy, math, matplotlib, sklearn, etc. in the code generation process. Also, remember to correctly load any necessary files with the correct path before using them.
 

@@ -120,7 +120,7 @@ export const ChatRichContentItemBody: FC<ChatRichContentItemBodyProps> = memo(
               alt="image"
               width="500"
               height="500"
-              style={{ position: 'relative', height: '100%', width: '100%' }}
+              style={{ position: 'relative', height: '100%', width: '50%' }}
             />
           </div>
         );

@@ -309,7 +309,7 @@ Output: The action you want to perform, and the extracted path or searched relev
     # Build the chat agent with LLM and tools
     continue_model = llm_name if llm_name in NEED_CONTINUE_MODEL else None
     interaction_executor = initialize_agent(tools, llm, continue_model, memory=memory,
-                                            verbose=True)
+                                            verbose=True, max_iterations=3)
     return interaction_executor
 
 
@@ -327,7 +327,7 @@ def chat() -> Response | Dict:
         code_interpreter_tools = request_json.get("code_interpreter_tools", [])
         api_call = request_json.get("api_call", None)
         llm_name = request_json["llm_name"]
-        temperature = request_json.get("temperature", 0.7)
+        temperature = request_json.get("temperature", 0)
         stop_words = ["[RESPONSE_BEGIN]", "TOOL RESPONSE"]
         kwargs = {
             "temperature": temperature,

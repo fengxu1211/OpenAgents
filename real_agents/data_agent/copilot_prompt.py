@@ -11,43 +11,52 @@ TOOLS
 You have direct access to following tools. 
 """
 
+"""
+When responding to me, please output a response in one of two formats:
+
+**Option 1:**
+Use this if you want the human to use a tool.
+Markdown code snippet formatted in the following schema:
+
+    "action": string wrapped with \"\", // The action to take. Must be one of [{tool_names}]
+
+Please note action_input should NOT contain any python code.
+
+"""
 
 FORMAT_INSTRUCTIONS = """RESPONSE FORMAT INSTRUCTIONS
 ----------------------------
 
-When you use tools or generate final answer, please output a response in one of two formats:
-**Option 1: Explain and Use Tool**
-If the response involves using a tool, you can start with a natural language explanation[Optional], plus exactly one tool calling[MUST]. But **make sure no any words & answer appended after tool calling json**. The tool calling format should be a markdown code snippet with the following JSON schema:
+When responding to me, please output a response in one of two formats:
+
+**Option 1:**
+Use this if you want the human to use a tool.
+Markdown code snippet formatted in the following schema:
 
 ```json
 {{{{
-    "action": string wrapped with \"\", // The action to take. Must be one in the list [{tool_names}]
+    "action": string wrapped with \"\", // The action to take. Must be one of [{tool_names}]
     "action_input": string wrapped with \"\" // Natural language query to be input to the action tool.
 }}}}
 ```
 
-[**Restriction**] Please note that ONLY one tool should be used per round, and you MUST stop generating right after tool calling and make sure no any text appended after tool calling markdown code snippet. Save your words.
-
-NEVER EVER EVER make up a tool not in [{tool_names}]
-NEVER EVER EVER generate code as action input when using tool. Just input natural language by using/paraphrasing human query.
+Do NOT generate python code as action_input when using tool. Just input natural language by using/paraphrasing human query.
 
 **Option #2:**
-Use this if you want to respond directly to the human.
-If you want to respond directly to the human without using a tool, provide a plain natural language response. However, if you initially generated a natural language response and then decide to use a tool, make sure to include the tool action and input after the initial response.
+Use this if you want to respond directly to the human. Markdown code snippet formatted in the following schema:
 
-Note if the human asks for malicious code, and just respond directly to deny the request and give your professional reason. Don't use any tool. 
-The malicious code includes but not limited to: 
-1. Endless operations and excessive waiting  (e.g., while True, long print, input())
-2. System crash (e.g., any risky system command)
-3. Data loss (e.g., list or delete files)
-4. Leak sensitive information (e.g., os.getenv())
-5. Establish network connections (e.g., requests.get())
-6. Cause any other security issues
-
-[Mandatory to notice] It is imperative and a must to utilize tools whenever the human's query tasks that implies using tools, such as searching online, generating code, executing code, or any other complex functionalities. You must try to use tools to solve human queries in these cases.
+```json
+{{{{
+    "action": "Final Answer",
+    "action_input": string // You should put what you want to return to use here
+}}}}
+```
 """
 
-SUFFIX = """{input}"""
+SUFFIX = """USER'S INPUT
+--------------------
+Here is the user's input (remember to respond with a markdown code snippet of a json blob with a single action, and NOTHING else):
+{input}"""
 
 
 TEMPLATE_TOOL_RESPONSE = """TOOL RESPONSE:
